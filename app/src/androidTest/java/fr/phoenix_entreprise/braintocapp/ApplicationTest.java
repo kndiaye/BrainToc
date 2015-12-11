@@ -1,4 +1,4 @@
-package fr.phoenix_entreprise.braintoc;
+package fr.phoenix_entreprise.braintocapp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package fr.phoenix_entreprise.braintoc;
+package fr.phoenix_entreprise.braintocapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
