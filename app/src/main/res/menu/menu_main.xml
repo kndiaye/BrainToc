@@ -1,6 +1,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menu_Photo"
+        android:title="Profil"
+        android:icon="@drawable/bonome"
+        app:showAsAction="always"
+        />
+
+    <item android:id="@+id/menu_Logo"
+        android:title="Logo"
+        android:icon="@drawable/app_logo"
+        app:showAsAction="always"
+        />
+
+    <item android:id="@+id/menu_Notification"
+        android:title="Notification"
+        android:icon="@drawable/notification"
+        app:showAsAction="always"
+        />
+
+    <item android:id="@+id/menu_menu"
+        android:title="Menu"
+        android:icon="@drawable/menu"
+        app:showAsAction="always"
+        />
+
 </menu>
