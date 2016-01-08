@@ -30,13 +30,13 @@
                 android:layout_width="99dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageButton"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:src="@drawable/nouveau_compte"
-                />
+                android:background="#00ff9e00" />
 
         </LinearLayout>
 
-        <!-- Nom  -->
+        <!-- Pseudonyme  -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -44,16 +44,19 @@
             android:layout_gravity="center_horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Nom"
-                android:id="@+id/textView1" />
+                android:text="Pseudonyme :"
+                android:id="@+id/ViewPseudonyme" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText1" />
+                android:id="@+id/TextPseudonyme"
+                android:autoText="false"
+                android:maxLength="32"
+                android:singleLine="true"/>
 
         </LinearLayout>
 
