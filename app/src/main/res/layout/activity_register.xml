@@ -20,15 +20,15 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/app_logo_register"
                 android:src="@drawable/app_logo"
                 android:layout_gravity="center_horizontal"
                 />
 
             <ImageButton
-                android:layout_width="99dp"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
                 android:id="@+id/imageButton"
                 android:layout_gravity="center"
                 android:src="@drawable/nouveau_compte"
@@ -41,26 +41,30 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Pseudonyme :"
-                android:id="@+id/ViewPseudonyme" />
+                android:id="@+id/ViewPseudonyme"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp" />
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/TextPseudonyme"
                 android:autoText="false"
                 android:maxLength="32"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:inputType="text" />
 
         </LinearLayout>
 
-        <!-- Prénom  -->
+        <!-- Naissance  -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -69,73 +73,60 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="PRénom"
-                android:id="@+id/textView2" />
+                android:text="Date de naissance :"
+                android:id="@+id/ViewNaissance"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp" />
 
             <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText2" />
-
-        </LinearLayout>
-
-        <!--  date de naissance -->
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Date de naissance"
-                android:id="@+id/textView3" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:ems="10"
-                android:id="@+id/editText"
-                android:layout_weight="1" />
-
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/TextNaissance"
+                android:singleLine="true"
+                android:inputType="date" />
 
         </LinearLayout>
 
         <!--  Sexe -->
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Sexe"
-                android:id="@+id/textView4" />
+                android:text="Sexe :"
+                android:id="@+id/ViewSexe"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Femme"
-                android:id="@+id/radioButton" />
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Homme"
+                    android:id="@+id/radioButtonHomme"
+                    android:layout_marginRight="10dp" />
+                <RadioButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:text="Femme"
+                    android:id="@+id/radioButtonFemme" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Homme"
-                android:id="@+id/radioButton2" />
-
+            </RadioGroup>
 
         </LinearLayout>
 
-        <!--  Questions diverses -->
+        <!-- Login  -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -144,14 +135,25 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Question diverse"
-                android:id="@+id/textView5" />
+                android:text="Login :"
+                android:id="@+id/ViewLogin"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/TextLogin"
+                android:autoText="false"
+                android:maxLength="32"
+                android:singleLine="true"
+                android:inputType="text" />
 
         </LinearLayout>
 
-        <!--  Questions diverses -->
+        <!-- Mot de passe  -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -160,10 +162,21 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Question diverse"
-                android:id="@+id/textView6" />
+                android:text="Mot de passe :"
+                android:id="@+id/ViewMdp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/TextMdp"
+                android:autoText="false"
+                android:maxLength="32"
+                android:singleLine="true"
+                android:inputType="textPassword" />
 
         </LinearLayout>
 
