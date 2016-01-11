@@ -9,7 +9,8 @@
         android:columnCount="2"
         android:rowCount="2"
         android:id="@+id/gridLayout"
-        android:layout_gravity="right|center">
+        android:layout_gravity="right|center"
+        android:layout_margin="10dp">
 
         <ImageView
             android:layout_width="wrap_content"
