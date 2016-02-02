@@ -24,6 +24,10 @@
             android:name=".RegisterActivity"
             android:label="Register" >
         </activity>
+        <activity
+            android:name=".Game1Activity"
+            android:label="Game1" >
+        </activity>
     </application>
 
 </manifest>
