@@ -10,7 +10,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/app_logoMain"
-            android:src="@drawable/app_logo"
+            android:src="@drawable/logo_icm"
             android:layout_gravity="center_horizontal" />
 
 

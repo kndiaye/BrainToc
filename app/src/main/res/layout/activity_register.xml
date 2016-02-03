@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_margin="10dp">
 
-        <!-- Logo AjoutImage  -->
+        <!-- Logo   -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -20,20 +20,9 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/app_logo_register"
-                android:src="@drawable/app_logo"
-                android:layout_gravity="center_horizontal"
-                />
-
-            <ImageButton
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:id="@+id/imageButton"
-                android:layout_gravity="center"
-                android:src="@drawable/nouveau_compte"
-                android:background="#00ff9e00" />
-
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@drawable/logo_icm" />
         </LinearLayout>
 
         <!-- Pseudonyme  -->
@@ -80,12 +69,18 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp" />
 
-            <EditText
+            <!--<EditText
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/TextNaissance"
                 android:singleLine="true"
-                android:inputType="date" />
+                android:inputType="date" />-->
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calendrier"
+                android:onClick="showDatePickerDialog" />
 
         </LinearLayout>
 
@@ -138,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Login :"
+                android:text="Identifiant :"
                 android:id="@+id/ViewLogin"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp" />
