@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">BrainTocApp</string>
-
+    <string name="score_name">Score: %d points</string>
     <string name="Yo_world">Yo world!</string>
     <string name="action_settings">Settings</string>
+
+
 </resources>
