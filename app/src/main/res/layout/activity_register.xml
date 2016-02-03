@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_margin="10dp">
 
-        <!-- Logo   -->
+        <!-- Logo  -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -119,33 +119,6 @@
                     android:id="@+id/radioButtonFemme" />
 
             </RadioGroup>
-
-        </LinearLayout>
-
-        <!-- Login  -->
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Identifiant :"
-                android:id="@+id/ViewLogin"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp" />
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/TextLogin"
-                android:autoText="false"
-                android:maxLength="32"
-                android:singleLine="true"
-                android:inputType="text" />
 
         </LinearLayout>
 

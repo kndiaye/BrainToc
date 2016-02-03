@@ -36,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity{
 
     public static final String KEY_PSEUDO = "pseudo";
     public static final String KEY_NAISSANCE = "naissance";
-    public static final String KEY_LOGIN = "login";
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_SEXE = "sexe";
 
@@ -44,9 +43,10 @@ public class RegisterActivity extends AppCompatActivity{
 
     private EditText editTextPseudo;
     private EditText editTextNaissance;
-    private EditText editTextLogin;
     private EditText editTextPassword;
     private RadioGroup groupSex;
+
+    private boolean goNext = false;
 
 
     @Override
@@ -57,7 +57,6 @@ public class RegisterActivity extends AppCompatActivity{
 
         editTextPseudo = (EditText) findViewById(R.id.TextPseudonyme);
         //editTextNaissance = (EditText) findViewById(R.id.TextNaissance);
-        editTextLogin = (EditText) findViewById(R.id.TextLogin);
         editTextPassword = (EditText) findViewById(R.id.TextMdp);
         groupSex = (RadioGroup) findViewById(R.id.radioGroupSexe);
     }
@@ -74,7 +73,6 @@ public class RegisterActivity extends AppCompatActivity{
 
         final String pseudo = editTextPseudo.getText().toString().trim();
         //final String naissance = editTextNaissance.getText().toString().trim();
-        final String login = editTextLogin.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
         int idSex = groupSex.getCheckedRadioButtonId();
         if(idSex == R.id.radioButtonHomme){ idSex = 1; }
@@ -83,7 +81,6 @@ public class RegisterActivity extends AppCompatActivity{
 
         if(pseudo.isEmpty()
                 ||date==null
-                ||login.isEmpty()
                 ||password.isEmpty()
                 ||String.valueOf(sex).isEmpty()){
             Toast.makeText(RegisterActivity.this, "Champs non renseignés", Toast.LENGTH_LONG).show();
@@ -92,7 +89,6 @@ public class RegisterActivity extends AppCompatActivity{
 
             Log.i(KEY_PSEUDO, pseudo);
             Log.i(KEY_NAISSANCE, date);
-            Log.i(KEY_LOGIN, login);
             Log.i(KEY_PASSWORD, password);
             Log.i(KEY_SEXE, String.valueOf(sex));
 
@@ -100,8 +96,25 @@ public class RegisterActivity extends AppCompatActivity{
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.d("Response: ", response);
-                            Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
+                            Log.d("Response: ", String.valueOf(response));
+                            String res_text = "";
+                            switch(response){
+                                case "1":
+                                    res_text = "Pseudonyme déjà pris !";
+                                    break;
+                                case "2":
+                                    res_text = "Enregistrement réussi !";
+                                    goNext = true;
+                                    break;
+                                case "3":
+                                    res_text = "Echec de l'enregistrement !";
+                                    break;
+                                case "4":
+                                    res_text = "Pseudonyme déjà pris !";
+                                    break;
+
+                            }
+                            Toast.makeText(RegisterActivity.this, res_text, Toast.LENGTH_LONG).show();
                         }
                     },
                     new Response.ErrorListener() {
@@ -116,7 +129,6 @@ public class RegisterActivity extends AppCompatActivity{
                     Map<String, String> params = new HashMap<String, String>();
                     params.put(KEY_PSEUDO, pseudo);
                     params.put(KEY_NAISSANCE, date);
-                    params.put(KEY_LOGIN, login);
                     params.put(KEY_PASSWORD, password);
                     params.put(KEY_SEXE, String.valueOf(sex));
                     return params;
@@ -126,8 +138,14 @@ public class RegisterActivity extends AppCompatActivity{
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
-            Intent intent = new Intent(this, ConnectionActivity.class);
-            startActivity(intent);
+            if(goNext) {
+                Intent intent = new Intent(this, ConnectionActivity.class);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(this, RegisterActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
