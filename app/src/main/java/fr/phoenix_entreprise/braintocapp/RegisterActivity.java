@@ -1,10 +1,14 @@
 package fr.phoenix_entreprise.braintocapp;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -19,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +40,8 @@ public class RegisterActivity extends AppCompatActivity{
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_SEXE = "sexe";
 
+    private static String date;
+
     private EditText editTextPseudo;
     private EditText editTextNaissance;
     private EditText editTextLogin;
@@ -49,59 +56,112 @@ public class RegisterActivity extends AppCompatActivity{
         setContentView(R.layout.activity_register);
 
         editTextPseudo = (EditText) findViewById(R.id.TextPseudonyme);
-        editTextNaissance = (EditText) findViewById(R.id.TextNaissance);
+        //editTextNaissance = (EditText) findViewById(R.id.TextNaissance);
         editTextLogin = (EditText) findViewById(R.id.TextLogin);
         editTextPassword = (EditText) findViewById(R.id.TextMdp);
         groupSex = (RadioGroup) findViewById(R.id.radioGroupSexe);
     }
 
+    public static String getDate(){
+        return date;
+    }
+
+    public static void setDate(String t_date){
+        date = t_date;
+    }
+
     public void register(View view) throws JSONException{
 
         final String pseudo = editTextPseudo.getText().toString().trim();
-        final String naissance = editTextNaissance.getText().toString().trim();
+        //final String naissance = editTextNaissance.getText().toString().trim();
         final String login = editTextLogin.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
         int idSex = groupSex.getCheckedRadioButtonId();
         if(idSex == R.id.radioButtonHomme){ idSex = 1; }
         if(idSex == R.id.radioButtonFemme){ idSex = 0; }
         final int sex = idSex;
-        Log.i(KEY_PSEUDO, pseudo);
-        Log.i(KEY_NAISSANCE, naissance);
-        Log.i(KEY_LOGIN, login);
-        Log.i(KEY_PASSWORD, password);
-        Log.i(KEY_SEXE, String.valueOf(sex));
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Response: ", response);
-                        Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Response: ", error.toString());
-                        Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put(KEY_PSEUDO, pseudo);
-                params.put(KEY_NAISSANCE, naissance);
-                params.put(KEY_LOGIN, login);
-                params.put(KEY_PASSWORD, password);
-                params.put(KEY_SEXE, String.valueOf(sex));
-                return params;
-            }
+        if(pseudo.isEmpty()
+                ||date==null
+                ||login.isEmpty()
+                ||password.isEmpty()
+                ||String.valueOf(sex).isEmpty()){
+            Toast.makeText(RegisterActivity.this, "Champs non renseignés", Toast.LENGTH_LONG).show();
+        }
+        else {
 
-        };
+            Log.i(KEY_PSEUDO, pseudo);
+            Log.i(KEY_NAISSANCE, date);
+            Log.i(KEY_LOGIN, login);
+            Log.i(KEY_PASSWORD, password);
+            Log.i(KEY_SEXE, String.valueOf(sex));
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-        Intent intent = new Intent(this, ConnectionActivity.class);
-        startActivity(intent);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("Response: ", response);
+                            Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("Response: ", error.toString());
+                            Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put(KEY_PSEUDO, pseudo);
+                    params.put(KEY_NAISSANCE, date);
+                    params.put(KEY_LOGIN, login);
+                    params.put(KEY_PASSWORD, password);
+                    params.put(KEY_SEXE, String.valueOf(sex));
+                    return params;
+                }
+
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(stringRequest);
+            Intent intent = new Intent(this, ConnectionActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
+            month = month+1;
+            Log.i("année",String.valueOf(year));
+            Log.i("mois",String.valueOf(month));
+            Log.i("jour",String.valueOf(day));
+            String temp_date = String.valueOf(year)+'-'+String.valueOf(month)+'-'+String.valueOf(day);
+            Log.i("date",temp_date);
+            RegisterActivity.setDate(temp_date);
+        }
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "Selection date");
     }
 }
