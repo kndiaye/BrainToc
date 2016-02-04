@@ -33,20 +33,18 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity{
 
     private static final String REGISTER_URL = "http://192.168.24.41/HumanICM/inscription.php";
-
     public static final String KEY_PSEUDO = "pseudo";
     public static final String KEY_NAISSANCE = "naissance";
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_SEXE = "sexe";
-
-    private static String date;
 
     private EditText editTextPseudo;
     private EditText editTextNaissance;
     private EditText editTextPassword;
     private RadioGroup groupSex;
 
-    private boolean goNext = false;
+    private static String date;
+    private static boolean goNext;
 
 
     @Override
@@ -56,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity{
         setContentView(R.layout.activity_register);
 
         editTextPseudo = (EditText) findViewById(R.id.TextPseudonyme);
-        //editTextNaissance = (EditText) findViewById(R.id.TextNaissance);
         editTextPassword = (EditText) findViewById(R.id.TextMdp);
         groupSex = (RadioGroup) findViewById(R.id.radioGroupSexe);
     }
@@ -69,10 +66,17 @@ public class RegisterActivity extends AppCompatActivity{
         date = t_date;
     }
 
-    public void register(View view) throws JSONException{
+    public static boolean getGoNext(){
+        return goNext;
+    }
 
+    public static void setGoNext(boolean next){
+        goNext = next;
+    }
+
+    public void register(View view) throws JSONException{
+        RegisterActivity.setGoNext(false);
         final String pseudo = editTextPseudo.getText().toString().trim();
-        //final String naissance = editTextNaissance.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
         int idSex = groupSex.getCheckedRadioButtonId();
         if(idSex == R.id.radioButtonHomme){ idSex = 1; }
@@ -104,17 +108,18 @@ public class RegisterActivity extends AppCompatActivity{
                                     break;
                                 case "2":
                                     res_text = "Enregistrement réussi !";
-                                    goNext = true;
+                                    RegisterActivity.setGoNext(true);
                                     break;
                                 case "3":
                                     res_text = "Echec de l'enregistrement !";
                                     break;
                                 case "4":
-                                    res_text = "Pseudonyme déjà pris !";
+                                    res_text = "Erreur";
                                     break;
 
                             }
                             Toast.makeText(RegisterActivity.this, res_text, Toast.LENGTH_LONG).show();
+                            nextScreen(RegisterActivity.getGoNext());
                         }
                     },
                     new Response.ErrorListener() {
@@ -122,6 +127,7 @@ public class RegisterActivity extends AppCompatActivity{
                         public void onErrorResponse(VolleyError error) {
                             Log.d("Response: ", error.toString());
                             Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                            nextScreen(RegisterActivity.getGoNext());
                         }
                     }) {
                 @Override
@@ -138,18 +144,20 @@ public class RegisterActivity extends AppCompatActivity{
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
-            if(goNext) {
-                Intent intent = new Intent(this, ConnectionActivity.class);
-                startActivity(intent);
-            }
-            else{
-                Intent intent = new Intent(this, RegisterActivity.class);
-                startActivity(intent);
-            }
+            Toast.makeText(RegisterActivity.this, "Connexion en cours ...", Toast.LENGTH_SHORT).show();
         }
     }
 
-
+    public void nextScreen(boolean next){
+        if(next) {
+            Intent intent = new Intent(this, ConnectionActivity.class);
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        }
+    }
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {

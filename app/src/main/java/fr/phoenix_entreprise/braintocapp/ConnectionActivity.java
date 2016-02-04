@@ -28,13 +28,21 @@ import java.util.Map;
 public class ConnectionActivity extends AppCompatActivity {
 
     private static final String CONNEXION_URL = "http://192.168.24.41/HumanICM/connexion.php";
-
     public static final String KEY_LOGIN = "login";
     public static final String KEY_PASSWORD = "password";
 
     private EditText editTextPseudo;
     private EditText editTextPassword;
-    private boolean connected = false;
+
+    private static boolean connected;
+
+    public static boolean getConnected(){
+        return connected;
+    }
+
+    public static void setConnected(boolean co){
+        connected = co;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +56,7 @@ public class ConnectionActivity extends AppCompatActivity {
     }
 
     public void connexion(View view) throws JSONException {
-
+        ConnectionActivity.setConnected(false);
         final String pseudo = editTextPseudo.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
 
@@ -65,16 +73,33 @@ public class ConnectionActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             Log.d("Response: ", response);
-                            connected = true;
-                            Toast.makeText(ConnectionActivity.this, response, Toast.LENGTH_LONG).show();
+                            String res_text = "";
+                            switch(response){
+                                case "1":
+                                    res_text = "Connexion réussi !";
+                                    ConnectionActivity.setConnected(true);
+                                    break;
+                                case "2":
+                                    res_text = "Mauvais mot de passe !";
+                                    break;
+                                case "3":
+                                    res_text = "Mauvais pseudonyme !";
+                                    break;
+                                case "4":
+                                    res_text = "Erreur";
+                                    break;
+
+                            }
+                            Toast.makeText(ConnectionActivity.this, res_text, Toast.LENGTH_LONG).show();
+                            nextScreen(ConnectionActivity.getConnected());
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.d("Response: ", error.toString());
-                            connected = false;
                             Toast.makeText(ConnectionActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                            nextScreen(ConnectionActivity.getConnected());
                         }
                     }) {
                 @Override
@@ -89,14 +114,18 @@ public class ConnectionActivity extends AppCompatActivity {
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
-            if (connected){
-                Intent intent = new Intent(this, ConnectionActivity.class);
-                startActivity(intent);
-            }
-            else {
-                Intent intent = new Intent(this, MainPageActivity.class);
-                startActivity(intent);
-            }
+            Toast.makeText(ConnectionActivity.this, "Connexion en cours ...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void nextScreen(boolean next){
+        if(next) {
+            Intent intent = new Intent(this, MainPageActivity.class);
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(this, ConnectionActivity.class);
+            startActivity(intent);
         }
     }
 
