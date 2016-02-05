@@ -30,6 +30,10 @@
             android:name=".Game1Activity"
             android:label="Game1" >
         </activity>
+        <activity
+            android:name=".ScoreGame1Activity"
+            android:label="Game1" >
+        </activity>
     </application>
 
 </manifest>
