@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -50,12 +51,21 @@ public class RegisterActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Ajouter if (si connecté ou pas)
-        setContentView(R.layout.activity_register);
+        //Check if connected or not
+        final Account acc_log = (Account) getApplicationContext();
+        final String log  = acc_log.getLogin();
+        if(log==null){ // pas connecté
+            setContentView(R.layout.activity_register);
 
-        editTextPseudo = (EditText) findViewById(R.id.TextPseudonyme);
-        editTextPassword = (EditText) findViewById(R.id.TextMdp);
-        groupSex = (RadioGroup) findViewById(R.id.radioGroupSexe);
+            editTextPseudo = (EditText) findViewById(R.id.TextPseudonyme);
+            editTextPassword = (EditText) findViewById(R.id.TextMdp);
+            groupSex = (RadioGroup) findViewById(R.id.radioGroupSexe);
+        }
+        else{ // connecté
+            setContentView(R.layout.activity_connected);
+            TextView logView = (TextView) findViewById(R.id.ViewMessageConnected);
+            logView.setText("Vous êtes déjà connecté en tant que " + log + ".");
+        }
     }
 
     public static String getDate(){
@@ -189,5 +199,10 @@ public class RegisterActivity extends AppCompatActivity{
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "Selection date");
+    }
+
+    public void retourMenu(View view) {
+        Intent intent = new Intent(this, MainPageActivity.class);
+        startActivity(intent);
     }
 }

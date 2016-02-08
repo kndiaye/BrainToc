@@ -2,6 +2,7 @@ package fr.phoenix_entreprise.braintocapp;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,11 +50,21 @@ public class ConnectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //Ajouter if (si connecté ou pas)
-        setContentView(R.layout.activity_connection);
+        //Check if connected or not
+        final Account acc_log = (Account) getApplicationContext();
+        final String log  = acc_log.getLogin();
+        if(log==null){ // pas connecté
+            setContentView(R.layout.activity_connection);
 
-        editTextPseudo = (EditText) findViewById(R.id.TextPseudonyme);
-        editTextPassword = (EditText) findViewById(R.id.TextMdp);
+            editTextPseudo = (EditText) findViewById(R.id.TextPseudonyme);
+            editTextPassword = (EditText) findViewById(R.id.TextMdp);
+        }
+        else{ // connecté
+            setContentView(R.layout.activity_connected);
+            TextView logView = (TextView) findViewById(R.id.ViewMessageConnected);
+            logView.setText("Vous êtes déjà connecté en tant que " + log + ".");
+        }
+
     }
 
     public void connexion(View view) throws JSONException {
@@ -78,6 +90,10 @@ public class ConnectionActivity extends AppCompatActivity {
                                 case "1":
                                     res_text = "Connexion réussi !";
                                     ConnectionActivity.setConnected(true);
+                                    //Calling Application class to keep in memory the login
+                                    final Account acc_log = (Account) getApplicationContext();
+                                    //Set login in global/application context
+                                    Account.setLogin(pseudo);
                                     break;
                                 case "2":
                                     res_text = "Mauvais mot de passe !";
@@ -131,6 +147,11 @@ public class ConnectionActivity extends AppCompatActivity {
 
     public void register(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void retourMenu(View view) {
+        Intent intent = new Intent(this, MainPageActivity.class);
         startActivity(intent);
     }
 
