@@ -208,7 +208,6 @@ public class Game1Activity extends AppCompatActivity {
         }
     }
 
-
     /*************************************************************
      * Return the date of the moment
      *************************************************************/
