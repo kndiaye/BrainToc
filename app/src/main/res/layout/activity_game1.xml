@@ -28,8 +28,8 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/normal_indicator"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp">
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp">
 
         </FrameLayout>
 
@@ -37,7 +37,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="score"
+            android:text="scoretemporaire"
             android:id="@+id/buScore"
             android:onClick="finish"/>
 
@@ -55,7 +55,7 @@
                     android:src="@drawable/bonome"
                     android:onClick="onClickAction"
                     android:padding="2dp"
-                    android:layout_margin="1dp" />
+                    android:layout_margin="2dp" />
             </FrameLayout>
 
             <FrameLayout android:id="@+id/FLpicR"
@@ -71,7 +71,7 @@
                     android:src="@drawable/bonome2"
                     android:onClick="onClickAction"
                     android:padding="2dp"
-                    android:layout_margin="1dp" />
+                    android:layout_margin="2dp" />
             </FrameLayout>
 <!--
         </LinearLayout>-->

@@ -36,14 +36,19 @@ public class MainPageActivity extends AppCompatActivity {
 
 
     @Override
+    /*************************************************************
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *************************************************************/
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
 
-    //GAME
+
+    /*************************************************************
+     * Launch the first activity
+     *************************************************************/
     public void play1(View view) {
         Intent intent = new Intent(this, Game1Activity.class);
         startActivity(intent);
@@ -52,7 +57,7 @@ public class MainPageActivity extends AppCompatActivity {
 
 
 
-    //MENU
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
