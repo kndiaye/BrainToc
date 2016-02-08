@@ -139,7 +139,7 @@ public class Game1Activity extends AppCompatActivity {
             finish(view);
         }
 
-        //System.out.println(history);
+        System.out.println(history);
 
         changePic(); //CHANGE PICTURE DISPOSITION
     }
