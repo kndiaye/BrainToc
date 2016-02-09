@@ -7,19 +7,30 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 public class MainPageActivity extends AppCompatActivity {
 
 
 
     @Override
-    /*************************************************************
-     * Set the right layout
-     *************************************************************/
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //Check if connected or not
+        final Account acc_log = (Account) getApplicationContext();
+        final String log  = acc_log.getLogin();
+        if(log==null){ // pas connecté
+            setContentView(R.layout.activity_connected);
+            TextView logView = (TextView) findViewById(R.id.ViewMessageConnected);
+            logView.setText("Vous n'êtes pas connecté, veuillez vous connecter avant d'accéder au menu.");
+        }
+        else{ // connecté
+            setContentView(R.layout.activity_main);
+        }
+
 
     }
 
@@ -48,9 +59,6 @@ public class MainPageActivity extends AppCompatActivity {
 
 
     @Override
-    /*************************************************************
-     * MENU management
-     *************************************************************/
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -77,5 +85,10 @@ public class MainPageActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void retourMenu(View view) {
+        Intent intent = new Intent(this, ConnectionActivity.class);
+        startActivity(intent);
     }
 }
