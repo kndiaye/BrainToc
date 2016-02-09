@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -36,16 +35,29 @@ public class Game1Activity extends AppCompatActivity {
     private static final String SAVE_URL = "http://192.168.24.41/HumanICM/save_reversal.php";
     ///////////////////////////////////////////
 
+    private String history = "";
+    // HISTORY ////////////////////////////////
+    ///////////////////////////////////////////
+    // STARTDATE,STARTTIME:
+    // N°try; TIME ONSET ; PIC POSITION; WINNER ; TIME PRESS ; CHOICE ; FEEDBACK :  }loop
+    // REVERSAL:    }sometime
+    // ENDDATE,ENDTIME:
+    //
+    // Exemple: 090216,024940:1.314;L;L:1;1.319;L1R2,L;8.465;R;L:2;8.475;L1R2,R;10.161;R;W:Reversal:3;10.165;L1R2,R;10.336;R;0:Reversal:090216,025030
+    ///////////////////////////////////////////
+
+
     public static final String KEY_PSEUDO = "pseudo";
     public static final String KEY_RESULT = "result";
     private ImageView picL;     //For Left
     private ImageView picR;     //For Right
     private String winner;      //The Right Picture
     private int score = 0;          //Actual Score
+    private int numberofTry = 0;    //To count the number of try
     private int numberOfTryWin = 0; //To count the number of chain win
-    private int numberOfReverse = 0;    //to count the number of winner reverse
-    private String history = "";
-    private TextView TVscore;           //Score View
+    private int numberOfReverse = 0;    //To count the number of winner reverse
+    private java.util.Date startdate;
+
     private String pic1stimuli;
     private String pic2stimuli;
     private int winIndic = 0; //To change the color of the win indicator
@@ -61,7 +73,6 @@ public class Game1Activity extends AppCompatActivity {
 
         picL = (ImageView) findViewById(R.id.picL);
         picR = (ImageView) findViewById(R.id.picR);
-        TVscore = (TextView) findViewById(R.id.tvScore);
         initGame();
 
     }
@@ -77,7 +88,9 @@ public class Game1Activity extends AppCompatActivity {
         score = 0;
         numberOfTryWin = 0;
         numberOfReverse = 0;
-        history = "START_" + dateNow();
+        startdate = dateNow();
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyy,hhmmss");
+        history =  dateFormat.format(startdate) + ":";                  // #R STARTDATE,STARTTIME
 
         //Define randomly the two pictures
         int rand1 = 1+randGen.nextInt(24);
@@ -104,7 +117,7 @@ public class Game1Activity extends AppCompatActivity {
      * Action that append when the user click on a picture
      *************************************************************/
     public void onClickAction(View view) {
-
+        
         int id = view.getId(); //Id of the picture choosen
 
         // Make a random number to decide if the user really win
@@ -114,46 +127,57 @@ public class Game1Activity extends AppCompatActivity {
         point = (float) (point/10 + 0.4);
         point = Math.round(point);
 
+        history += time() + ";"; // #H Time press
+
+        if (id == picL.getId()){ history += "L;";}   // #H Choice
+        else{ history += "R;";}                      // #H Choice
 
         /////////////////////////////// WIN
-        if ((id == picL.getId() && winner == "L") || (id == picR.getId() && winner == "R")){       //WIN AND LEFT
+        if ((id == picL.getId() && winner == "L") || (id == picR.getId() && winner == "R")){
             score += point;
             numberOfTryWin += 1;
-            history += "_"+(int)point;
 
             // Change the indicator on screen
             if (score == 0){
                 looseIndicator();
+                history += "0:";                      // #H Win but negative feedback
             }
             else {
                 winIndicator();
+                history += "W:";                      // #H Win and positive feedback
+                //winIndicator(id);
             }
         }
         /////////////////////////////// LOOSE
         else {
             score -= point;
             numberOfTryWin = 0;
-            history += "_-"+(int)point;
+            history += "L:";                      // #H Win but negative feedback
             looseIndicator();
         }
         ///////////////////////////////
 
-        history += "_" + dateNow();
 
         //MAKE A REVERSE OF THE LEARN
         if (numberOfTryWin >= nbOfTryToReverse){
             winner = changeWiner(winner);       // Change the winner picture
             numberOfReverse +=1;                // Count the number of reversal
-            history += "_REV";
+            history += "Reversal:";             // #H Reversal
         }
 
         //SHOW THE SCORE BOARD (AND SEND DATA)
         if (numberOfReverse > nbOfReverseToEnd) {
-            history += "_END" + dateNow();
+            DateFormat dateFormat = new SimpleDateFormat("ddMMyy,hhmmss");
+            history += dateFormat.format(dateNow());        // #H End of the game
             finish(view);
         }
 
         //System.out.println(history);
+
+        //picL.setBackground(getResources().getDrawable(R.drawable.normal_indicator));
+        //picR.setBackground(getResources().getDrawable(R.drawable.normal_indicator));
+        numberofTry +=1;
+        history += numberofTry + ";";  // #H Number of try
 
         changePic(); //CHANGE PICTURE DISPOSITION
     }
@@ -167,6 +191,8 @@ public class Game1Activity extends AppCompatActivity {
         Random randGen = new Random();
         int change = randGen.nextInt(2);
 
+        history += time() + ";"; // #H Time onset
+
         if (change == 1){                           // Invert Pictures
             String picInter = pic1stimuli;
             pic1stimuli = pic2stimuli;
@@ -177,7 +203,15 @@ public class Game1Activity extends AppCompatActivity {
                     getApplicationContext())));
 
             winner = changeWiner(winner);          // Change the winner picture
+
+            history += "L1R2,"; // #H Pic Position (left pic1, right pic2)
         }
+        else{
+            history += "L2R1,"; // #H Pic Position (left pic2, right pic1)
+        }
+
+        history += winner + ";"; // #H Winner between the two pictures
+
     }
 
     /*************************************************************
@@ -225,10 +259,23 @@ public class Game1Activity extends AppCompatActivity {
     /*************************************************************
      * Return the date of the moment
      *************************************************************/
-    public String dateNow(){
+    /*public String dateNow(){
         java.util.Date uDate = new java.util.Date();
-        DateFormat dateFormat = new SimpleDateFormat("ddMMyy:hhmmss");
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyy,hhmmss");
         return dateFormat.format(uDate);
+    }*/
+    public java.util.Date dateNow(){
+        java.util.Date uDate = new java.util.Date();
+        return uDate;
+    }
+
+    /*************************************************************
+     * Return the date of the moment
+     *************************************************************/
+    public float time(){
+        java.util.Date uDate = new java.util.Date();
+        float diff = (float) (uDate.getTime() - startdate.getTime())/1000;
+        return diff;
     }
 
     /*************************************************************
