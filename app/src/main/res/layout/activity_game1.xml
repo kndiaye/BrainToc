@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:weightSum="10"
         android:paddingBottom="20dp">
 
 
@@ -30,22 +29,22 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:layout_weight="2">
+            android:layout_marginBottom="20dp">
 
         </FrameLayout>
 
-        <Button
+        <!--<Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="scoretemporaire"
             android:id="@+id/buScore"
             android:onClick="finish"
-            android:layout_weight="2"/>
+            android:layout_weight="2"/>-->
 
         <FrameLayout android:id="@+id/FLpicL"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/border_background"
                 android:layout_marginTop="5dp"
@@ -55,7 +54,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:id="@+id/picL"
-                    android:src="@drawable/bonome"
+                    android:src="@drawable/stim1"
                     android:onClick="onClickAction"
                     android:padding="2dp"
                     android:layout_margin="2dp" />
@@ -63,7 +62,7 @@
 
             <FrameLayout android:id="@+id/FLpicR"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/border_background"
                 android:layout_marginTop="5dp"
@@ -71,11 +70,12 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
                     android:id="@+id/picR"
-                    android:src="@drawable/bonome2"
+                    android:src="@drawable/stim2"
                     android:onClick="onClickAction"
                     android:padding="2dp"
-                    android:layout_margin="1dp" />
+                    android:layout_margin="2dp" />
             </FrameLayout>
 <!--
         </LinearLayout>-->

@@ -89,7 +89,8 @@ public class MainPageActivity extends AppCompatActivity {
 
         else if (id == R.id.menu_Deconnect) {
 
-
+            final Account acc_log = (Account) getApplicationContext();
+            acc_log.setLogin(null);
             Intent intent = new Intent(this, ConnectionActivity.class);
             startActivity(intent);
             return true;
