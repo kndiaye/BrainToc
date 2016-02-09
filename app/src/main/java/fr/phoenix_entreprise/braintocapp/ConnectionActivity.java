@@ -67,6 +67,11 @@ public class ConnectionActivity extends AppCompatActivity {
 
     }
 
+    /***
+     * Connexion : appel au clic du bouton, et envoie les données au serveur
+     * @param view
+     * @throws JSONException
+     */
     public void connexion(View view) throws JSONException {
         ConnectionActivity.setConnected(false);
         final String pseudo = editTextPseudo.getText().toString().trim();
@@ -134,6 +139,10 @@ public class ConnectionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Fonction appelé pour rediriger après l'inscription
+     * @param next
+     */
     public void nextScreen(boolean next){
         if(next) {
             Intent intent = new Intent(this, MainPageActivity.class);
@@ -145,15 +154,22 @@ public class ConnectionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Accès à l'enregistrement
+     * @param view
+     */
     public void register(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Retour Menu
+     * @param view
+     */
     public void retourMenu(View view) {
         Intent intent = new Intent(this, MainPageActivity.class);
         startActivity(intent);
     }
-
 
 }

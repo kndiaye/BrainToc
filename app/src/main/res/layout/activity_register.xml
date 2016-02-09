@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -122,6 +122,53 @@
 
         </LinearLayout>
 
+        <!--  TOC -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Avez-vous été diagnostiqué comme ayant des troubles obsessionnels compulsifs ?"
+                android:id="@+id/ViewTOC"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:id="@+id/radioGroupTOC">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Oui"
+                    android:id="@+id/radioButtonTOCO"
+                    android:layout_marginRight="10dp" />
+                <RadioButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:text="Non"
+                    android:id="@+id/radioButtonTOCN" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
         <!-- Mot de passe  -->
         <LinearLayout
             android:orientation="horizontal"
@@ -160,4 +207,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>

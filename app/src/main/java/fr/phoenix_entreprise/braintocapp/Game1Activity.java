@@ -4,13 +4,24 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -22,8 +33,11 @@ public class Game1Activity extends AppCompatActivity {
     ///////////////////////////////////////////
     private int nbOfTryToReverse = 10;  // Number of try needed to make the reversal
     private int nbOfReverseToEnd = 4;   // Number of reversal needed to stop the activity
+    private static final String SAVE_URL = "http://192.168.24.41/HumanICM/save_reversal.php";
     ///////////////////////////////////////////
 
+    public static final String KEY_PSEUDO = "pseudo";
+    public static final String KEY_RESULT = "result";
     private ImageView picL;     //For Left
     private ImageView picR;     //For Right
     private String winner;      //The Right Picture
@@ -223,6 +237,53 @@ public class Game1Activity extends AppCompatActivity {
     public void finish(View view) {
         Intent intent = new Intent(this, ScoreGame1Activity.class);
         intent.putExtra("SCORE", score);
+        //save history in the database
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, SAVE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Response: ", String.valueOf(response));
+                        String res_text = "";
+                        switch(response){
+                            case "1":
+                                res_text = "Enregistrement réussi !";
+                                break;
+                            case "2":
+                                res_text = "Echec de l'enregistrement !";
+                                break;
+                            case "3":
+                                res_text = "Echec de l'enregistrement !";
+                                break;
+                            case "4":
+                                res_text = "Erreur";
+                                break;
+                        }
+                        Toast.makeText(Game1Activity.this, res_text, Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Response: ", error.toString());
+                        Toast.makeText(Game1Activity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                final Account acc_log = (Account) getApplicationContext();
+                final String log  = acc_log.getLogin();
+                Log.i("Login ",log);
+                Log.i("Resultat ",history);
+                params.put(KEY_PSEUDO, log);
+                params.put(KEY_RESULT, history);
+                return params;
+            }
+
+        };
+        Toast.makeText(Game1Activity.this, "Enregistrement des résultats ...", Toast.LENGTH_SHORT).show();
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
         startActivity(intent);
     }
 

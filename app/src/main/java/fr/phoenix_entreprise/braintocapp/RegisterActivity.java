@@ -38,12 +38,19 @@ public class RegisterActivity extends AppCompatActivity{
     public static final String KEY_NAISSANCE = "naissance";
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_SEXE = "sexe";
+    public static final String KEY_TOC = "toc";
 
     private EditText editTextPseudo;
     private EditText editTextNaissance;
     private EditText editTextPassword;
     private RadioGroup groupSex;
+    private RadioGroup groupTOC;
 
+
+    private String pseudo;
+    private String password;
+    private int sex;
+    private int toc;
     private static String date;
     private static boolean goNext;
 
@@ -60,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity{
             editTextPseudo = (EditText) findViewById(R.id.TextPseudonyme);
             editTextPassword = (EditText) findViewById(R.id.TextMdp);
             groupSex = (RadioGroup) findViewById(R.id.radioGroupSexe);
+            groupTOC = (RadioGroup) findViewById(R.id.radioGroupTOC);
         }
         else{ // connecté
             setContentView(R.layout.activity_connected);
@@ -84,14 +92,21 @@ public class RegisterActivity extends AppCompatActivity{
         goNext = next;
     }
 
+    /**
+     * Appel lors de la soumission du formulaire de connexion
+     */
     public void register(View view) throws JSONException{
         RegisterActivity.setGoNext(false);
-        final String pseudo = editTextPseudo.getText().toString().trim();
-        final String password = editTextPassword.getText().toString().trim();
+        pseudo = editTextPseudo.getText().toString().trim();
+        password = editTextPassword.getText().toString().trim();
         int idSex = groupSex.getCheckedRadioButtonId();
         if(idSex == R.id.radioButtonHomme){ idSex = 1; }
         if(idSex == R.id.radioButtonFemme){ idSex = 0; }
-        final int sex = idSex;
+        sex = idSex;
+        int idTOC = groupTOC.getCheckedRadioButtonId();
+        if(idTOC == R.id.radioButtonTOCO){ idTOC = 1; }
+        if(idTOC == R.id.radioButtonTOCN){ idTOC = 0; }
+        toc = idTOC;
 
         if(pseudo.isEmpty()
                 ||date==null
@@ -100,64 +115,14 @@ public class RegisterActivity extends AppCompatActivity{
             Toast.makeText(RegisterActivity.this, "Champs non renseignés", Toast.LENGTH_LONG).show();
         }
         else {
-
-            Log.i(KEY_PSEUDO, pseudo);
-            Log.i(KEY_NAISSANCE, date);
-            Log.i(KEY_PASSWORD, password);
-            Log.i(KEY_SEXE, String.valueOf(sex));
-
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.d("Response: ", String.valueOf(response));
-                            String res_text = "";
-                            switch(response){
-                                case "1":
-                                    res_text = "Pseudonyme déjà pris !";
-                                    break;
-                                case "2":
-                                    res_text = "Enregistrement réussi !";
-                                    RegisterActivity.setGoNext(true);
-                                    break;
-                                case "3":
-                                    res_text = "Echec de l'enregistrement !";
-                                    break;
-                                case "4":
-                                    res_text = "Erreur";
-                                    break;
-
-                            }
-                            Toast.makeText(RegisterActivity.this, res_text, Toast.LENGTH_LONG).show();
-                            nextScreen(RegisterActivity.getGoNext());
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("Response: ", error.toString());
-                            Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                            nextScreen(RegisterActivity.getGoNext());
-                        }
-                    }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put(KEY_PSEUDO, pseudo);
-                    params.put(KEY_NAISSANCE, date);
-                    params.put(KEY_PASSWORD, password);
-                    params.put(KEY_SEXE, String.valueOf(sex));
-                    return params;
-                }
-
-            };
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(stringRequest);
-            Toast.makeText(RegisterActivity.this, "Connexion en cours ...", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_register2);
         }
     }
 
+    /**
+     * Fonction appelée pour passer à l'écran suivant après l'appel serveur
+     * @param next
+     */
     public void nextScreen(boolean next){
         if(next) {
             Intent intent = new Intent(this, ConnectionActivity.class);
@@ -167,6 +132,80 @@ public class RegisterActivity extends AppCompatActivity{
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         }
+    }
+
+    /**
+     * Appel lorsque le candidat confirme l'accord
+     * @param view
+     */
+    public void participate(View view) {
+        Log.i(KEY_PSEUDO, pseudo);
+        Log.i(KEY_NAISSANCE, date);
+        Log.i(KEY_PASSWORD, password);
+        Log.i(KEY_SEXE, String.valueOf(sex));
+        Log.i(KEY_TOC, String.valueOf(toc));
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Response: ", String.valueOf(response));
+                        String res_text = "";
+                        switch(response){
+                            case "1":
+                                res_text = "Pseudonyme déjà pris !";
+                                break;
+                            case "2":
+                                res_text = "Enregistrement réussi !";
+                                RegisterActivity.setGoNext(true);
+                                break;
+                            case "3":
+                                res_text = "Echec de l'enregistrement !";
+                                break;
+                            case "4":
+                                res_text = "Erreur";
+                                break;
+
+                        }
+                        Toast.makeText(RegisterActivity.this, res_text, Toast.LENGTH_LONG).show();
+                        nextScreen(RegisterActivity.getGoNext());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Response: ", error.toString());
+                        Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        nextScreen(RegisterActivity.getGoNext());
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(KEY_PSEUDO, pseudo);
+                params.put(KEY_NAISSANCE, date);
+                params.put(KEY_PASSWORD, password);
+                params.put(KEY_SEXE, String.valueOf(sex));
+                params.put(KEY_TOC, String.valueOf(toc));
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+        Toast.makeText(RegisterActivity.this, "Connexion en cours ...", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, ConnectionActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Appel lorsqu'il ne confirme pas l'accord
+     * @param view
+     */
+    public void noParticipate(View view) {
+        Intent intent = new Intent(this, ConnectionActivity.class);
+        startActivity(intent);
     }
 
     public static class DatePickerFragment extends DialogFragment

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp">
+
+        <!-- Logo  -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@drawable/logo_icm" />
+        </LinearLayout>
+
+        <!--  TOC -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Cette application a été développée par des chercheurs de l’Inserm à des fins de recherche scientifique.\n\nElle garantit sécurité et la confidentialité de vos données qui pourront être exploitées uniquement à des fins de recherche par les chercheurs de l'équipe BEBG de façon anonyme.\n\nEn la chargeant, vous acceptez que vous données soient utilisées à cette fin et uniquement à cette fin.\n\nVos données ne seront pas transmises à un tiers et conformément à la 'loi informatique et libertés' du 6 janvier 1978 modifiée, vous bénéficiez d’un droit d’accès et de rectification aux informations qui vous concernent.\n\nSi vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser à bebgteam@gmail.com.\n\nCette étude est validée par le Comité d’Évaluation et d’Étique de l’Inserm (CEEI) et la Commission Nationale de l’Informatique et des libérées (CNIL).\n"
+                android:id="@+id/ViewAccord"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp" />
+
+        </LinearLayout>
+
+        <!--  Je participe -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Je participe"
+            android:id="@+id/buttonAccept"
+            android:onClick="participate"
+            android:layout_gravity="center_horizontal" />
+
+        <!--  Je ne participe pas -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Je ne participe pas"
+            android:id="@+id/buttonRefuse"
+            android:onClick="noParticipate"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
