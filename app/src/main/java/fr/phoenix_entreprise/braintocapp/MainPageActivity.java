@@ -17,6 +17,9 @@ public class MainPageActivity extends AppCompatActivity {
 
 
     @Override
+    /*************************************************************
+     * Set the right layout
+     *************************************************************/
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Check if connected or not
@@ -30,7 +33,6 @@ public class MainPageActivity extends AppCompatActivity {
         else{ // connecté
             setContentView(R.layout.activity_main);
         }
-
 
     }
 
@@ -55,10 +57,20 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
 
+    /*************************************************************
+     * Launch the second activity
+     *************************************************************/
+    public void play2(View view) {
+        Intent intent = new Intent(this, Game2Activity.class);
+        startActivity(intent);
+    }
 
 
 
     @Override
+    /*************************************************************
+     * MENU management
+     *************************************************************/
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -69,13 +81,13 @@ public class MainPageActivity extends AppCompatActivity {
 
         if (id == R.id.menu_Notification) {
 
-            Uri uri = Uri.parse("http://aide.fr/"); //intention implicite
+            Uri uri = Uri.parse("http://bebgteam.net/team/"); //intention implicite
             Intent intent = new Intent(Intent.ACTION_VIEW,uri);
             startActivity(intent);
             return true;
         }
 
-        else if (id == R.id.menu_menu) {
+        else if (id == R.id.menu_Deconnect) {
 
 
             Intent intent = new Intent(this, ConnectionActivity.class);

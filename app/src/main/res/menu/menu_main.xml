@@ -1,27 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_Photo"
-        android:title="Profil"
-        android:icon="@drawable/bonome"
-        app:showAsAction="always"
-        />
-
-    <item android:id="@+id/menu_Logo"
-        android:title="Logo"
-        android:icon="@drawable/app_logo"
-        app:showAsAction="always"
-        />
 
     <item android:id="@+id/menu_Notification"
         android:title="Notification"
-        android:icon="@drawable/notification"
+        android:icon="@drawable/ic_action_bebg"
         app:showAsAction="always"
         />
 
-    <item android:id="@+id/menu_menu"
-        android:title="Menu"
-        android:icon="@drawable/menu"
+    <item android:id="@+id/menu_Deconnect"
+        android:title="Deconnect"
+        android:icon="@drawable/ic_action_deconnect"
         app:showAsAction="always"
         />
 
